@@ -1,6 +1,6 @@
 # Todo List
 
-This is a simple React todo likst built with Vites 
+This is a simple React todo list built with Vite
 
 ## Installation 
 
@@ -9,4 +9,5 @@ This is a simple React todo likst built with Vites
 
 ## Running the Development Server
 
-Run 'npm' and open http://localhost:5173/ in your browser
+Run 'npm run dev' 
+then open http://localhost:5173/ in your browser

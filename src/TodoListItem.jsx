@@ -4,7 +4,7 @@ function TodoListItem({ todo, onCompleteTodo }) {
             <input
                 type="checkbox"
                 checked={todo.isCompleted}
-                onClick={() => onCompleteTodo(todo.id)}
+                onChange={() => onCompleteTodo(todo.id)}
             />
             {todo.title}
         </li>

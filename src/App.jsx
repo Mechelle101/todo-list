@@ -8,10 +8,10 @@ function App() {
   const [todoList, setTodoList] = useState([]);
 
   const updateTodo = (editedTodo) => {
-    const updateTodos = todoList.map((todo) => 
+    const updatedTodos = todoList.map((todo) => 
       todo.id === editedTodo.id ? { ...editedTodo } : todo
     );
-    setTodoList(updateTodos);
+    setTodoList(updatedTodos);
   };
 
   function addTodo(todoTitle) {

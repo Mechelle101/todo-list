@@ -15,6 +15,8 @@ export default function TodosPage({ token }) {
 
     const fetchTodos = async () =>{
         setIsTodoListLoading(true);
+        setError('');
+
         try {
             const params = new URLSearchParams({ limit: 100 });
             const resp = await fetch(`/api/tasks?${params}`, {
@@ -30,7 +32,7 @@ export default function TodosPage({ token }) {
             }
 
             const data = await resp.json();
-            setTodoList(data.tasks);
+            setTodoList(Array.isArray(data.tasks) ? data.tasks : []);
         } catch (error) {
             setError(error.message);
         } finally {
@@ -41,6 +43,7 @@ export default function TodosPage({ token }) {
     }, [token]);
 
         const updateTodo = async (editedTodo) => {
+            setError('');
             const originalTodo = todoList.find((todo) => todo.id === editedTodo.id);
 
         setTodoList((prev) => 
@@ -73,6 +76,8 @@ export default function TodosPage({ token }) {
     }; //updateTodo
 
     const addTodo = async (todoTitle) => {
+        setError('');
+
         const newTodo = {
             id: Date.now(),
             title: todoTitle,
@@ -113,6 +118,8 @@ export default function TodosPage({ token }) {
     };
 
     async function completeTodo(id) {
+        setError('');
+        
         const originalTodo = todoList.find((todo) => todo.id === id);
 
         setTodoList((prev) =>

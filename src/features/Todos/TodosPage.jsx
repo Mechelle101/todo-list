@@ -55,7 +55,7 @@ export default function TodosPage({ token }) {
 
         } catch (error) {
             if(debouncedFilterTerm || sortBy !== 'createdAt' || sortDirection !== 'desc') {
-                setFilterError(`Error fetching/sorting ${error.message}`);
+                setFilterError(`Error filtering/sorting ${error.message}`);
             } else {
                 setError(`Error fetching todos: ${error.message}`);
             }
@@ -71,7 +71,6 @@ export default function TodosPage({ token }) {
     };
 
     const invalidateCache = useCallback(() => {
-        console.log('Invalidating memo cache after todo mutation');
         setDataVersion((prev) => prev + 1);
     }, []);
 

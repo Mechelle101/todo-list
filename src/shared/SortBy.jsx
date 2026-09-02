@@ -19,7 +19,7 @@ function SortBy({ sortBy, sortDirection, onSortByChange, onSortDirectionChange }
                 value={sortDirection}
                 onChange={(e) => onSortDirectionChange(e.target.value)}
                 >
-                <option value="desc">Decending</option>
+                <option value="desc">Descending</option>
                 <option value="asc">Ascending</option>
             </select>
         </div>

@@ -74,7 +74,7 @@ export default function TodosPage() {
         const isFilterError =
           debouncedFilterTerm ||
           sortBy !== "createdAt" ||
-          sortDirection !== "desc";
+          sortDirection !== "asc";
 
         // decide which error should be displayed
         const message = isFilterError

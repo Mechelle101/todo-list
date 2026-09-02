@@ -4,13 +4,15 @@ import TodoList from "./TodoList/TodoList.jsx";
 import SortBy from "../../shared/SortBy";
 import useDebounce from "../../utils/useDebounce";
 import FilterInput from "../../shared/FilterInput.jsx";
+import { useAuth } from "../../contexts/AuthContext.jsx";
 import {
   todoReducer,
   initialTodoState,
   TODO_ACTIONS,
 } from "../../reducers/todoReducer.js";
 
-export default function TodosPage({ token }) {
+export default function TodosPage() {
+  const { token } = useAuth();
   const [state, dispatch] = useReducer(todoReducer, initialTodoState);
   const {
     todoList,
@@ -23,14 +25,6 @@ export default function TodosPage({ token }) {
     dataVersion,
   } = state;
 
-  //   const [todoList, setTodoList] = useState([]);
-  //   const [error, setError] = useState("");
-  //   const [isTodoListLoading, setIsTodoListLoading] = useState(false);
-  //   const [sortBy, setSortBy] = useState("createdAt");
-  //   const [sortDirection, setSortDirection] = useState("desc");
-  //   const [filterTerm, setFilterTerm] = useState("");
-  //   const [dataVersion, setDataVersion] = useState(0);
-  //   const [filterError, setFilterError] = useState("");
   const debouncedFilterTerm = useDebounce(filterTerm, 300);
 
   useEffect(() => {

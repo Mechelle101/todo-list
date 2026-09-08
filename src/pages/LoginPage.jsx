@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router";
 import { useAuth } from "../contexts/AuthContext.jsx";
 
-function Logon() {
-  const { login } = useAuth();
+function LoginPage() {
+  const { login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
   const [isLoggingOn, setIsLoggingOn] = useState(false);
 
-  const handleSubmit = async (e) => {
+  //getting the intended destination from loacation state, default /todos
+  const from = location.state?.from?.pathname || "/todos";
+
+  //redirecting if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
+
+  //handle login form submission
+  async function handleSubmit(e) {
     e.preventDefault();
     setIsLoggingOn(true);
     setAuthError("");
@@ -19,8 +33,7 @@ function Logon() {
       setAuthError(result.error);
     }
     setIsLoggingOn(false);
-  };
-
+  }
   return (
     <form onSubmit={handleSubmit}>
       {authError && <p className="error">{authError}</p>}
@@ -54,4 +67,4 @@ function Logon() {
   );
 }
 
-export default Logon;
+export default LoginPage;

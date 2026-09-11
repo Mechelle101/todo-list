@@ -12,17 +12,17 @@ function LoginPage() {
   const [authError, setAuthError] = useState("");
   const [isLoggingOn, setIsLoggingOn] = useState(false);
 
-  //getting the intended destination from loacation state, default /todos
+  // getting the intended destination from location state, default /todos
   const from = location.state?.from?.pathname || "/todos";
 
-  //redirecting if already authenticated
+  // redirecting if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
       navigate(from, { replace: true });
     }
   }, [isAuthenticated, navigate, from]);
 
-  //handle login form submission
+  // handle login form submission
   async function handleSubmit(e) {
     e.preventDefault();
     setIsLoggingOn(true);
@@ -35,10 +35,10 @@ function LoginPage() {
     setIsLoggingOn(false);
   }
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="card stack">
       {authError && <p className="error">{authError}</p>}
 
-      <div>
+      <div className="field">
         <label htmlFor="email">Email</label>
         <input
           id="email"
@@ -49,7 +49,7 @@ function LoginPage() {
         />
       </div>
 
-      <div>
+      <div className="field">
         <label htmlFor="password">Password</label>
         <input
           id="password"

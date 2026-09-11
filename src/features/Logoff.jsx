@@ -21,10 +21,10 @@ export default function Logoff() {
 
   return (
     <>
-      <button type="button" onClick={handleLogoff}>
+      <button type="button" onClick={handleLogoff} className="button-secondary">
         Log Off
       </button>
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
     </>
   );
 }

@@ -1,6 +1,6 @@
 function AboutPage() {
   return (
-    <div>
+    <div className="page card">
       <h2>About This App</h2>
       <p>
         A todo application for creating, tracking, and completing tasks, built

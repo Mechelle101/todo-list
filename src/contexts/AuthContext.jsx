@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
-
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
 
@@ -34,10 +34,11 @@ export function AuthProvider({ children }) {
       } else {
         return {
           success: false,
-          error: `Authentication failed: ${data?.message}`,
+          // Never echo the server's response to the user
+          error: "Login faild, Check your email and password, then try again.",
         };
       }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: "Network error during login",
@@ -71,7 +72,7 @@ export function AuthProvider({ children }) {
       }
 
       return { success: true };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: "Network error during logout",

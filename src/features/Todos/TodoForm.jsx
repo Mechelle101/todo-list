@@ -1,30 +1,40 @@
-
-import { useState } from 'react'
-import TextInputWithLabel from '../../shared/TextInputWithLabel';
-import { isValidTodoTitle } from '../../utils/todoValidation';
+import { useState } from "react";
+import TextInputWithLabel from "../../shared/TextInputWithLabel";
+import {
+  isValidTodoTitle,
+  getTodoTitleError,
+  MAX_TODO_LENGTH,
+} from "../../utils/todoValidation";
 
 function TodoForm({ onAddTodo }) {
-    const [workingTodoTitle, setWorkingTodoTitle] = useState('');
+  const [workingTodoTitle, setWorkingTodoTitle] = useState("");
 
-    const handleAddTodo = (e) => {
-        e.preventDefault();
-        onAddTodo(workingTodoTitle);
-        setWorkingTodoTitle('');
-    };
+  const errorMessage =
+    workingTodoTitle.length > 0 ? getTodoTitleError(workingTodoTitle) : "";
 
-    return (
+  const handleAddTodo = (e) => {
+    e.preventDefault();
+    if (!isValidTodoTitle(workingTodoTitle)) return;
+    onAddTodo(workingTodoTitle.trim());
+    setWorkingTodoTitle("");
+  };
 
-        <form onSubmit={handleAddTodo}>
-            <TextInputWithLabel
-                elementId="todoId"
-                labelText="Todo"
-                value={workingTodoTitle}
-                onChange={(e) => setWorkingTodoTitle(e.target.value)} 
-            />
+  return (
+    <form onSubmit={handleAddTodo} className="card row">
+      <TextInputWithLabel
+        elementId="todoId"
+        labelText="Todo"
+        value={workingTodoTitle}
+        onChange={(e) => setWorkingTodoTitle(e.target.value)}
+        maxLength={MAX_TODO_LENGTH}
+      />
 
-            <button type="submit" disabled={!isValidTodoTitle(workingTodoTitle)}>Add Todo</button>
-        </form>
-    );
+      <button type="submit" disabled={!isValidTodoTitle(workingTodoTitle)}>
+        Add Todo
+      </button>
+      {errorMessage && <p className="field-error">{errorMessage}</p>}
+    </form>
+  );
 }
 
 export default TodoForm;

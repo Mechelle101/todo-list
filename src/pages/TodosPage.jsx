@@ -145,7 +145,7 @@ export default function TodosPage() {
         },
       });
     }
-  }; //updateTodo
+  };
 
   const addTodo = async (todoTitle) => {
     const newTodo = {
@@ -240,14 +240,14 @@ export default function TodosPage() {
         },
       });
     }
-  } //completeTodo
+  }
 
   return (
-    <>
+    <div className="stack">
       {isTodoListLoading && <p>Loading todos...</p>}
 
       {error && (
-        <div>
+        <div className="error" role="alert">
           <p>{error}</p>
           <button
             type="button"
@@ -259,7 +259,7 @@ export default function TodosPage() {
       )}
 
       {filterError && (
-        <div>
+        <div className="error" role="alert">
           <p>{filterError}</p>
           <button
             type="button"
@@ -275,36 +275,36 @@ export default function TodosPage() {
           </button>
         </div>
       )}
+      <div className="card row">
+        <SortBy
+          sortBy={sortBy}
+          sortDirection={sortDirection}
+          onSortByChange={(newSortBy) =>
+            dispatch({
+              type: TODO_ACTIONS.SET_SORT,
+              payload: {
+                sortBy: newSortBy,
+                sortDirection,
+              },
+            })
+          }
+          onSortDirectionChange={(newSortDirection) =>
+            dispatch({
+              type: TODO_ACTIONS.SET_SORT,
+              payload: {
+                sortBy,
+                sortDirection: newSortDirection,
+              },
+            })
+          }
+        />
 
-      <SortBy
-        sortBy={sortBy}
-        sortDirection={sortDirection}
-        onSortByChange={(newSortBy) =>
-          dispatch({
-            type: TODO_ACTIONS.SET_SORT,
-            payload: {
-              sortBy: newSortBy,
-              sortDirection,
-            },
-          })
-        }
-        onSortDirectionChange={(newSortDirection) =>
-          dispatch({
-            type: TODO_ACTIONS.SET_SORT,
-            payload: {
-              sortBy,
-              sortDirection: newSortDirection,
-            },
-          })
-        }
-      />
-
-      <FilterInput
-        filterTerm={filterTerm}
-        onFilterChange={handleFilterChange}
-      />
-
-      <StatusFilter />
+        <FilterInput
+          filterTerm={filterTerm}
+          onFilterChange={handleFilterChange}
+        />
+        <StatusFilter />
+      </div>
 
       <TodoForm onAddTodo={addTodo} />
 
@@ -315,6 +315,6 @@ export default function TodosPage() {
         dataVersion={dataVersion}
         statusFilter={statusFilter}
       />
-    </>
+    </div>
   );
 }

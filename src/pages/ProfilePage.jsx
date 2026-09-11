@@ -59,7 +59,7 @@ function ProfilePage() {
       : 0;
 
   return (
-    <div>
+    <div className="page card">
       <h2>Profile</h2>
       <section>
         <h3>Account</h3>

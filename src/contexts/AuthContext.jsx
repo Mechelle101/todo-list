@@ -11,6 +11,7 @@ export function useAuth() {
   return context;
 }
 
+// Stores the CSRF token in memory rather than localStorage so it can't be read by injected scripts
 export function AuthProvider({ children }) {
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");

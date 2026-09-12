@@ -36,6 +36,7 @@ export default function TodosPage() {
       return;
     }
 
+    // Fetch todos when auth, sort, or debounce search term changes
     const fetchTodos = async () => {
       dispatch({
         type: TODO_ACTIONS.FETCH_START,
@@ -105,6 +106,7 @@ export default function TodosPage() {
     });
   };
 
+  // Optimistically updates the todo in state, then rolls back if the API fails
   const updateTodo = async (editedTodo) => {
     const originalTodo = todoList.find((todo) => todo.id === editedTodo.id);
     dispatch({
@@ -147,6 +149,7 @@ export default function TodosPage() {
     }
   };
 
+  // Creates the todo with a temperary id so it appears immediately, then swaps in the saved record
   const addTodo = async (todoTitle) => {
     const newTodo = {
       id: Date.now(),
@@ -202,6 +205,7 @@ export default function TodosPage() {
     }
   };
 
+  // Optimistically marks complete, restoring the original todo if request fails
   async function completeTodo(id) {
     const originalTodo = todoList.find((todo) => todo.id === id);
     dispatch({

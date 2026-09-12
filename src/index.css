@@ -1,17 +1,17 @@
 /* design token */
 :root {
   /* Color */
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-primary-soft: #dbeafe;
+  --color-primary: #b45309;
+  --color-primary-hover: #92400e;
+  --color-primary-soft: #fef3c7;
   --color-accent: #16a34a;
   --color-danger: #dc2626;
   --color-danger-soft: #fee2e2;
-  --color-bg: #f8fafc;
+  --color-bg: #f0eae2;
   --color-surface: #ffffff;
-  --color-border: #e2e8f0;
-  --color-text: #0f172a;
-  --color-text-muted: #64748b;
+  --color-border: #e7dfd3;
+  --color-text: #191716;
+  --color-text-muted: #78716c;
   --color-text-on-primary: #ffffff;
 
   /* Spacing (4px base) */

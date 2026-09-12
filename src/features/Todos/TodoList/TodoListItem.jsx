@@ -22,7 +22,7 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
     if (!isEditing) return;
     e.preventDefault();
     if (!isValidTodoTitle(workingTitle)) return;
-    onUpdateTodo({ ...todo, title: workingTitle });
+    onUpdateTodo({ ...todo, title: workingTitle.trim() });
     setIsEditing(false);
   };
 
@@ -58,15 +58,19 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
                 checked={todo.isCompleted}
                 onChange={() => onCompleteTodo(todo.id)}
               />
+              <span className="visually-hidden">
+                Mark &quot;{todo.title}&quot; complete
+              </span>
             </label>
-            <span
+            <button
+              type="button"
+              onClick={() => setIsEditing(true)}
               className={
                 todo.isCompleted ? "todo-title completed" : "todo-title"
               }
-              onClick={() => setIsEditing(true)}
             >
               {todo.title}
-            </span>
+            </button>
           </>
         )}
       </form>

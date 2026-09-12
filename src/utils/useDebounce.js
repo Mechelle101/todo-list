@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// Delays updating the returned value until the input stops changing, to limit API calls while changing
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 

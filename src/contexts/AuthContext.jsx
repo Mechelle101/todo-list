@@ -36,7 +36,7 @@ export function AuthProvider({ children }) {
         return {
           success: false,
           // Never echo the server's response to the user
-          error: "Login faild, Check your email and password, then try again.",
+          error: "Login failed, Check your email and password, then try again.",
         };
       }
     } catch {

@@ -22,7 +22,7 @@ This project is not currently deployed. To run it locally, see [Getting Started]
 - Add new todos with validation (required, 100-character limit)
 - Mark todos complete with a checkbox
 - Edit a todo title inline by clicking it
-- Delete a todo by clicking the button, alert pops up to varify the action
+- Delete a todo, with a confirmation prompt before it is removed
 - Filter by status: All, Active, or Completed (stored in the URL)
 - Search todos by title with debounced input
 - Sort by title or creation date, ascending or descending
@@ -80,9 +80,9 @@ The dev server proxies `/api/*` requests to the Code the Dream backend, so no en
 | `npm run preview` | Serves the production build locally for testing      |
 | `npm run lint`    | Runs ESLint across the project                       |
 
-## Design Decisions
+## Design Decisions / Style Documentation
 
-I chose plain CSS in two files — `index.css` for design tokens (colors, spacing, type scale) and base element styles, and `App.css` for component classes — to keep the styling simple and easy to trace. Readability drove the choices: a warm, low-glare palette, a system font stack, generous spacing, and text/background pairs that meet WCAG AA contrast. The layout is mobile-first: the base styles are a single stacked column, and a `min-width` breakpoint introduces row layouts once there's room. All buttons and inputs have a 44px minimum height for touch, and keyboard users get a visible focus.
+I chose plain CSS in two files — `index.css` for design tokens (colors, spacing, type scale) and base element styles, and `App.css` for component classes — to keep the styling simple and easy to trace. Readability drove the choices: a warm, low-glare palette, a system font stack, generous spacing, and text/background pairs that meet WCAG AA contrast. The layout is mobile-first: the base styles are a single stacked column, and a `min-width` breakpoint introduces row layouts once there's room. All buttons and inputs have a 44px minimum height for touch, and keyboard users get a visible focus indicator.
 
 On the security side, all user text is validated on the client (required, trimmed, length-limited) before it is sent to the API, and error messages shown to users are fixed strings rather than raw server responses.
 

@@ -132,7 +132,7 @@ export default function TodosPage() {
       });
 
       if (!resp.ok) {
-        throw new Error("Failed to update todo");
+        throw new Error("The server rejected the change");
       }
       dispatch({
         type: TODO_ACTIONS.UPDATE_TODO_SUCCESS,
@@ -149,7 +149,7 @@ export default function TodosPage() {
     }
   };
 
-  // Creates the todo with a temperary id so it appears immediately, then swaps in the saved record
+  // Creates the todo with a temporary id so it appears immediately, then swaps in the saved record
   const addTodo = async (todoTitle) => {
     const newTodo = {
       id: Date.now(),
@@ -179,7 +179,7 @@ export default function TodosPage() {
       });
 
       if (!resp.ok) {
-        throw new Error("Failed to save todo");
+        throw new Error("The server rejected the new todo");
       }
 
       const savedTodo = await resp.json();
@@ -227,7 +227,7 @@ export default function TodosPage() {
         body: JSON.stringify({ isCompleted: true }),
       });
       if (!resp.ok) {
-        throw new Error("Failed to complete todo");
+        throw new Error("The server rejected the change");
       }
 
       dispatch({
@@ -281,7 +281,7 @@ export default function TodosPage() {
 
   return (
     <div className="stack">
-      {isTodoListLoading && <p>Loading todos...</p>}
+      {isTodoListLoading && <p className="loading">Loading todos...</p>}
 
       {error && (
         <div className="error" role="alert">

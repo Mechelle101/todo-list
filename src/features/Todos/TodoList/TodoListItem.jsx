@@ -82,7 +82,7 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo, onDeleteTodo }) {
               className="button-danger"
             >
               Delete
-              <span className="visually-hidden">&quot;{todo.title}&quote;</span>
+              <span className="visually-hidden">&quot;{todo.title}&quot;</span>
             </button>
           </>
         )}

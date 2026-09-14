@@ -8,7 +8,7 @@ function AboutPage() {
       </p>
       <h3>Features</h3>
       <ul>
-        <li>Create, edit, and complete todos</li>
+        <li>Create, edit, mark todos as completed, then delete </li>
         <li>Filter todos by status and search by text</li>
         <li>Sort todos by title or creation date</li>
         <li>User authentication with protected pages</li>

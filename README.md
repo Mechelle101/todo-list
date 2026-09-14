@@ -22,6 +22,7 @@ This project is not currently deployed. To run it locally, see [Getting Started]
 - Add new todos with validation (required, 100-character limit)
 - Mark todos complete with a checkbox
 - Edit a todo title inline by clicking it
+- Delete a todo by clicking the button, alert pops up to varify the action
 - Filter by status: All, Active, or Completed (stored in the URL)
 - Search todos by title with debounced input
 - Sort by title or creation date, ascending or descending
@@ -87,7 +88,6 @@ On the security side, all user text is validated on the client (required, trimme
 
 ## Future Improvements
 
-- Delete todos
 - Dark/light theme toggle using the existing design tokens
 - Persist the last-used filter and sort preferences
 - Deploy to a static host

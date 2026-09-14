@@ -246,6 +246,39 @@ export default function TodosPage() {
     }
   }
 
+  // Optimistically removes the todo, restoring it if the request fails
+  async function deleteTodo(id) {
+    const originalTodo = todoList.find((todo) => todo.id === id);
+    dispatch({
+      type: TODO_ACTIONS.DELETE_TODO_START,
+      payload: { id },
+    });
+
+    try {
+      const resp = await fetch(`/api/tasks/${id}`, {
+        method: "DELETE",
+        headers: { "X-CSRF-TOKEN": token },
+        credentials: "include",
+      });
+
+      if (!resp.ok) {
+        throw new Error("The server rejected the request");
+      }
+
+      dispatch({
+        type: TODO_ACTIONS.DELETE_TODO_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: TODO_ACTIONS.DELETE_TODO_ERROR,
+        payload: {
+          originalTodo,
+          message: `Failed to delete todo: ${error.message}`,
+        },
+      });
+    }
+  }
+
   return (
     <div className="stack">
       {isTodoListLoading && <p>Loading todos...</p>}
@@ -316,6 +349,7 @@ export default function TodosPage() {
         todoList={todoList}
         onCompleteTodo={completeTodo}
         onUpdateTodo={updateTodo}
+        onDeleteTodo={deleteTodo}
         dataVersion={dataVersion}
         statusFilter={statusFilter}
       />

@@ -66,6 +66,18 @@
   background-color: var(--color-bg);
 }
 
+.button-danger {
+  background-color: transparent;
+  color: var(--color-danger);
+  border-color: var(--color-border);
+}
+
+.button-danger:hover {
+  background-color: var(--color-danger);
+  color: var(--color-text-on-primary);
+  border-color: var(--color-danger);
+}
+
 /* --- Cards & forms --- */
 .card {
   padding: var(--space-4);

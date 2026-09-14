@@ -5,7 +5,7 @@ import {
   MAX_TODO_LENGTH,
 } from "../../../utils/todoValidation";
 
-function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
+function TodoListItem({ todo, onCompleteTodo, onUpdateTodo, onDeleteTodo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [workingTitle, setWorkingTodoTitle] = useState(todo.title);
 
@@ -70,6 +70,19 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
               }
             >
               {todo.title}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (window.confirm(`Delete "${todo.title}"?`)) {
+                  onDeleteTodo(todo.id);
+                }
+              }}
+              className="button-danger"
+            >
+              Delete
+              <span className="visually-hidden">&quot;{todo.title}&quote;</span>
             </button>
           </>
         )}

@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 function NotFoundPage() {
   return (
-    <div>
+    <div className="page card">
       <h2>404 - Page Not Found</h2>
       <p>Sorry, the page does not exist.</p>
 

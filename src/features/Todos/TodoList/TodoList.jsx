@@ -5,6 +5,7 @@ function TodoList({
   todoList,
   onCompleteTodo,
   onUpdateTodo,
+  onDeleteTodo,
   dataVersion,
   statusFilter = "active",
 }) {
@@ -41,17 +42,17 @@ function TodoList({
     }
   };
 
-  // this will produce either a message or the list
   return filteredTodoList.todos.length === 0 ? (
-    <p>{getEmptyMessage()}</p>
+    <p className="empty-state">{getEmptyMessage()}</p>
   ) : (
-    <ul>
+    <ul className="todo-list">
       {filteredTodoList.todos.map((todo) => (
         <TodoListItem
           key={todo.id}
           todo={todo}
           onCompleteTodo={onCompleteTodo}
           onUpdateTodo={onUpdateTodo}
+          onDeleteTodo={onDeleteTodo}
         />
       ))}
     </ul>

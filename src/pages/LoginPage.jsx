@@ -11,53 +11,85 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
   const [isLoggingOn, setIsLoggingOn] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({});
 
-  //getting the intended destination from loacation state, default /todos
+  // getting the intended destination from location state, default /todos
   const from = location.state?.from?.pathname || "/todos";
 
-  //redirecting if already authenticated
+  // redirecting if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
       navigate(from, { replace: true });
     }
   }, [isAuthenticated, navigate, from]);
 
-  //handle login form submission
+  const validateFields = () => {
+    const errors = {};
+
+    if (email.trim().length === 0) {
+      errors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      errors.email = "Enter a valid email address.";
+    }
+
+    if (password.length === 0) {
+      errors.password = "Password is required.";
+    }
+
+    return errors;
+  };
+
+  // handle login form submission
   async function handleSubmit(e) {
     e.preventDefault();
-    setIsLoggingOn(true);
     setAuthError("");
 
-    const result = await login(email, password);
+    const errors = validateFields();
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
+    setIsLoggingOn(true);
+
+    const result = await login(email.trim(), password);
     if (!result.success) {
       setAuthError(result.error);
     }
     setIsLoggingOn(false);
   }
   return (
-    <form onSubmit={handleSubmit}>
-      {authError && <p className="error">{authError}</p>}
+    <form onSubmit={handleSubmit} className="card stack">
+      {authError && (
+        <p className="error" role="alert">
+          {authError}
+        </p>
+      )}
 
-      <div>
+      <div className="field">
         <label htmlFor="email">Email</label>
         <input
           id="email"
           type="email"
-          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {fieldErrors.email && (
+          <p className="field-error">{fieldErrors.email}</p>
+        )}
       </div>
 
-      <div>
+      <div className="field">
         <label htmlFor="password">Password</label>
         <input
           id="password"
           type="password"
-          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {fieldErrors.password && (
+          <p className="field-error">{fieldErrors.password}</p>
+        )}
       </div>
 
       <button type="submit" disabled={isLoggingOn}>

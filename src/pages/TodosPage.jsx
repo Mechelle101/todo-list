@@ -36,6 +36,7 @@ export default function TodosPage() {
       return;
     }
 
+    // Fetch todos when auth, sort, or debounce search term changes
     const fetchTodos = async () => {
       dispatch({
         type: TODO_ACTIONS.FETCH_START,
@@ -105,6 +106,7 @@ export default function TodosPage() {
     });
   };
 
+  // Optimistically updates the todo in state, then rolls back if the API fails
   const updateTodo = async (editedTodo) => {
     const originalTodo = todoList.find((todo) => todo.id === editedTodo.id);
     dispatch({
@@ -130,7 +132,7 @@ export default function TodosPage() {
       });
 
       if (!resp.ok) {
-        throw new Error("Failed to update todo");
+        throw new Error("The server rejected the change");
       }
       dispatch({
         type: TODO_ACTIONS.UPDATE_TODO_SUCCESS,
@@ -145,8 +147,9 @@ export default function TodosPage() {
         },
       });
     }
-  }; //updateTodo
+  };
 
+  // Creates the todo with a temporary id so it appears immediately, then swaps in the saved record
   const addTodo = async (todoTitle) => {
     const newTodo = {
       id: Date.now(),
@@ -176,7 +179,7 @@ export default function TodosPage() {
       });
 
       if (!resp.ok) {
-        throw new Error("Failed to save todo");
+        throw new Error("The server rejected the new todo");
       }
 
       const savedTodo = await resp.json();
@@ -202,6 +205,7 @@ export default function TodosPage() {
     }
   };
 
+  // Optimistically marks complete, restoring the original todo if request fails
   async function completeTodo(id) {
     const originalTodo = todoList.find((todo) => todo.id === id);
     dispatch({
@@ -223,7 +227,7 @@ export default function TodosPage() {
         body: JSON.stringify({ isCompleted: true }),
       });
       if (!resp.ok) {
-        throw new Error("Failed to complete todo");
+        throw new Error("The server rejected the change");
       }
 
       dispatch({
@@ -240,14 +244,47 @@ export default function TodosPage() {
         },
       });
     }
-  } //completeTodo
+  }
+
+  // Optimistically removes the todo, restoring it if the request fails
+  async function deleteTodo(id) {
+    const originalTodo = todoList.find((todo) => todo.id === id);
+    dispatch({
+      type: TODO_ACTIONS.DELETE_TODO_START,
+      payload: { id },
+    });
+
+    try {
+      const resp = await fetch(`/api/tasks/${id}`, {
+        method: "DELETE",
+        headers: { "X-CSRF-TOKEN": token },
+        credentials: "include",
+      });
+
+      if (!resp.ok) {
+        throw new Error("The server rejected the request");
+      }
+
+      dispatch({
+        type: TODO_ACTIONS.DELETE_TODO_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: TODO_ACTIONS.DELETE_TODO_ERROR,
+        payload: {
+          originalTodo,
+          message: `Failed to delete todo: ${error.message}`,
+        },
+      });
+    }
+  }
 
   return (
-    <>
-      {isTodoListLoading && <p>Loading todos...</p>}
+    <div className="stack">
+      {isTodoListLoading && <p className="loading">Loading todos...</p>}
 
       {error && (
-        <div>
+        <div className="error" role="alert">
           <p>{error}</p>
           <button
             type="button"
@@ -259,7 +296,7 @@ export default function TodosPage() {
       )}
 
       {filterError && (
-        <div>
+        <div className="error" role="alert">
           <p>{filterError}</p>
           <button
             type="button"
@@ -275,36 +312,36 @@ export default function TodosPage() {
           </button>
         </div>
       )}
+      <div className="card row">
+        <SortBy
+          sortBy={sortBy}
+          sortDirection={sortDirection}
+          onSortByChange={(newSortBy) =>
+            dispatch({
+              type: TODO_ACTIONS.SET_SORT,
+              payload: {
+                sortBy: newSortBy,
+                sortDirection,
+              },
+            })
+          }
+          onSortDirectionChange={(newSortDirection) =>
+            dispatch({
+              type: TODO_ACTIONS.SET_SORT,
+              payload: {
+                sortBy,
+                sortDirection: newSortDirection,
+              },
+            })
+          }
+        />
 
-      <SortBy
-        sortBy={sortBy}
-        sortDirection={sortDirection}
-        onSortByChange={(newSortBy) =>
-          dispatch({
-            type: TODO_ACTIONS.SET_SORT,
-            payload: {
-              sortBy: newSortBy,
-              sortDirection,
-            },
-          })
-        }
-        onSortDirectionChange={(newSortDirection) =>
-          dispatch({
-            type: TODO_ACTIONS.SET_SORT,
-            payload: {
-              sortBy,
-              sortDirection: newSortDirection,
-            },
-          })
-        }
-      />
-
-      <FilterInput
-        filterTerm={filterTerm}
-        onFilterChange={handleFilterChange}
-      />
-
-      <StatusFilter />
+        <FilterInput
+          filterTerm={filterTerm}
+          onFilterChange={handleFilterChange}
+        />
+        <StatusFilter />
+      </div>
 
       <TodoForm onAddTodo={addTodo} />
 
@@ -312,9 +349,10 @@ export default function TodosPage() {
         todoList={todoList}
         onCompleteTodo={completeTodo}
         onUpdateTodo={updateTodo}
+        onDeleteTodo={deleteTodo}
         dataVersion={dataVersion}
         statusFilter={statusFilter}
       />
-    </>
+    </div>
   );
 }
